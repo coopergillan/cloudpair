@@ -1,3 +1,7 @@
-source ./common.sh
+#!/bin/bash
 
-aws ec2 describe-instance-status --instance-ids $(aws ec2 describe-instances | jq -r '.Reservations[0].Instances[0].InstanceId') | jq -r '.InstanceStatuses[0].InstanceState.Name'
+source script/common.sh
+
+instance_state=$(aws ec2 describe-instance-status --instance-ids $EC2_INSTANCE_ID | jq -r '.InstanceStatuses[0].InstanceState.Name')
+
+echo "Instance ${EC2_INSTANCE_ID} is in state: ${instance_state}"

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+source script/common.sh
+
+instance_state=$()
+
+echo "Stopping instance ${EC2_INSTANCE_ID}"
+
+aws ec2 stop-instances --instance-ids $EC2_INSTANCE_ID
+
+instance_state=$(aws ec2 describe-instance-status --instance-ids $EC2_INSTANCE_ID | jq -r '.InstanceStatuses[0].InstanceState.Name')
+
+echo "Instance ${EC2_INSTANCE_ID} is now in state: ${instance_state}"
